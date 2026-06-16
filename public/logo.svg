@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <!-- Stylized Icon: Minimalist Coffee Cup + Financial Growth Line -->
+  <g transform="translate(8, 6)">
+    <!-- Coffee cup outline -->
+    <path d="M6,22 C6,33 13,36 22,36 C31,36 38,33 38,22 Z" fill="none" stroke="#ffb77b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6,22 H38" fill="none" stroke="#ffb77b" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Handle -->
+    <path d="M38,24 C42,24 44,27 38,30" fill="none" stroke="#ffb77b" stroke-width="2" stroke-linecap="round"/>
+    <!-- Growing candlestick charts/steams -->
+    <line x1="14" y1="17" x2="14" y2="10" stroke="#ffb77b" stroke-width="2" stroke-linecap="round"/>
+    <line x1="22" y1="17" x2="22" y2="6" stroke="#ffb77b" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="30" y1="17" x2="30" y2="3" stroke="#ffb77b" stroke-width="2" stroke-linecap="round"/>
+    <!-- Financial trend line overlapping -->
+    <path d="M5,16 L18,9 L32,2" fill="none" stroke="#e2e2e2" stroke-width="2" stroke-linecap="round"/>
+    <path d="M28,2 H32 V6" fill="none" stroke="#e2e2e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Typography -->
+  <!-- "Reformatory" in Satisfy font (beautiful handwriting) -->
+  <text x="64" y="28" font-family="'Satisfy', 'Dancing Script', cursive" font-size="24" fill="#e2e2e2">Reformatory</text>
+  <!-- "lab" in Satisfy font (handwriting) -->
+  <text x="186" y="28" font-family="'Satisfy', 'Dancing Script', cursive" font-size="22" fill="#ffb77b">lab</text>
+  <!-- Subtitle: "TMLABS COFFEE & TRADING" in Hanken Grotesk -->
+  <text x="66" y="47" font-family="'Hanken Grotesk', sans-serif" font-size="9" font-weight="700" fill="#c4c7c7" letter-spacing="0.25em">TMLABS COFFEE &amp; TRADING</text>
+</svg>

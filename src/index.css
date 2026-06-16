@@ -1,0 +1,660 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 8rem; /* 128px = 80px Header + 48px Ticker Tape */
+}
+
+/* Glassmorphism Styles */
+.glass-panel, .glass-card {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 183, 123, 0.15);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+.glass-panel:hover, .glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 183, 123, 0.1);
+}
+/* Spotlight Border Highlight */
+.glass-panel::before, .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+        250px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+        rgba(255, 183, 123, 0.45),
+        transparent 80%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+}
+/* Spotlight Center Glow */
+.glass-panel::after, .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        250px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+        rgba(255, 183, 123, 0.06),
+        transparent 85%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+}
+.glass-panel:hover::before, .glass-card:hover::before,
+.glass-panel:hover::after, .glass-card:hover::after {
+    opacity: 1;
+}
+.hero-gradient {
+    background: linear-gradient(to bottom, rgba(18, 20, 20, 0.4), rgba(18, 20, 20, 0.95));
+}
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.grayscale-map {
+    filter: grayscale(40%) contrast(95%);
+    opacity: 0.95;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #ffb77b !important;
+    box-shadow: 0 0 10px rgba(255, 183, 123, 0.1);
+}
+
+/* ── Flipbook wrapper ────────────────────────────────────────────────── */
+/* Do NOT add perspective / transform-style:preserve-3d here — page-flip  */
+/* manages all 3D transforms internally. Conflicting CSS is what caused   */
+/* the stiff/jerky animation.                                              */
+.flipbook-wrapper {
+    /* GPU-composited ambient shadow — no layout cost */
+    filter: drop-shadow(0px 35px 55px rgba(0,0,0,0.75));
+}
+.main-book {
+    width: 100% !important;
+    height: 100% !important;
+}
+/* page-flip renders its root into .stf__parent */
+.stf__parent {
+    /* Promote to its own compositor layer so the flip canvas never triggers  */
+    /* a layout or paint on the rest of the page.                             */
+    will-change: transform;
+    box-shadow: 0px 40px 80px rgba(0,0,0,0.7);
+}
+/* page-flip items — NEVER override transition here; it owns the animation */
+.stf__item {
+    transition: none !important;
+}
+.page-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+/* ── Individual page styling ─────────────────────────────────────────── */
+.page {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    /* overflow must be VISIBLE so page-flip can draw the curl-shadow canvas  */
+    /* that extends slightly beyond the page boundary.                        */
+    overflow: visible;
+    background-color: #1a1c1e;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Page inner border decoration */
+.page-inner-border {
+    position: absolute;
+    inset: 12px;
+    border: 1px dashed rgba(255, 183, 123, 0.15);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Page vintage texture / background accent */
+.page-watermark {
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,20 C40,20 30,28 30,40 C30,52 50,80 50,80 C50,80 70,52 70,40 C70,28 60,20 50,20 Z' fill='%23ffb77b'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 200px;
+    mix-blend-mode: multiply;
+}
+
+/* Gold Foil Text Effect */
+.text-gold-foil {
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Premium Leather Cover Background */
+.bg-leather-cover {
+    background-color: #0c0f0f;
+    background-image: radial-gradient(circle at center, rgba(255, 183, 123, 0.05) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    background-blend-mode: overlay;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+}
+
+/* Custom Scrollbar */
+.custom-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #ffb77b;
+    border-radius: 2px;
+}
+.custom-calendar::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Fallback Background Radial Glows */
+.bg-glow-bronze {
+    background: radial-gradient(circle at 50% 0%, rgba(255, 183, 123, 0.04) 0%, transparent 70%), #121414;
+}
+.bg-glow-dark {
+    background: radial-gradient(circle at 50% 0%, rgba(255, 183, 123, 0.02) 0%, transparent 75%), #0c0f0f;
+}
+
+/* Premium Animations */
+@keyframes float-glow {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.35;
+    }
+    50% {
+        transform: translate(25px, -20px) scale(1.08);
+        opacity: 0.55;
+    }
+}
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    animation: float-glow 8s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(12px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+.animate-scroll-dot {
+    animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+/* Mouse cursor trail glow style */
+.cursor-glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 183, 123, 0.07) 0%, rgba(255, 183, 123, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s ease;
+    mix-blend-mode: screen;
+    filter: blur(35px);
+    opacity: 0;
+    will-change: transform;
+}
+
+/* Enhanced scroll reveal with transitions */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Clickable menu items styling */
+.menu-item-clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Override hover translation and glow on details modal panel */
+#menu-item-modal .glass-panel {
+    transform: none !important;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 183, 123, 0.15) !important;
+}
+
+#menu-item-modal .glass-panel:hover {
+    transform: none !important;
+}
+
+#menu-item-modal .glass-panel::before,
+#menu-item-modal .glass-panel::after {
+    display: none !important; /* Disable spotlight effects on modal details panel */
+}
+
+/* Modal animation state */
+#menu-item-modal.opacity-0 .glass-panel {
+    transform: scale(0.95) translateY(10px) !important;
+    opacity: 0;
+}
+
+#menu-item-modal:not(.opacity-0) .glass-panel {
+    transform: scale(1) translateY(0) !important;
+    opacity: 1;
+}
+
+/* Spine Fold Shadow for Left/Right Page Simulation in Flipbook */
+.page-fold-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 10;
+    mix-blend-mode: multiply;
+}
+
+.page-fold-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(-90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 10;
+    mix-blend-mode: multiply;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* Glitch Effect */
+.glitch-hover {
+    position: relative;
+    display: inline-block;
+}
+.glitch-hover::before,
+.glitch-hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.group:hover .glitch-hover::before {
+    animation: glitch-anim-1 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #4ade80;
+    z-index: -1;
+    opacity: 0.8;
+}
+.group:hover .glitch-hover::after {
+    animation: glitch-anim-2 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite reverse;
+    color: #ffb77b;
+    z-index: -2;
+    opacity: 0.8;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+    100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+}
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+    20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 2px); }
+    40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 1px); }
+    60% { clip-path: inset(20% 0 50% 0); transform: translate(-1px, -2px); }
+    80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
+    100% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, 1px); }
+}
+
+/* 3D Tilt Card */
+.tilt-card-container { perspective: 1000px; }
+.tilt-card { transform-style: preserve-3d; transition: transform 0.1s ease-out; }
+.tilt-card-content { transform: translateZ(40px); }
+
+/* Data Matrix Particles Background */
+.data-particles-bg {
+    background-image: radial-gradient(rgba(74, 222, 128, 0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: particles-pan 20s linear infinite;
+}
+@keyframes particles-pan {
+    from { background-position: 0 0; }
+    to { background-position: 40px 40px; }
+}
+
+/* Testimonials Focus Mode & Watermarks */
+.testimonials-grid:hover > .testimonial-card:not(:hover) {
+    opacity: 0.25;
+    filter: blur(2px) grayscale(50%);
+    transform: scale(0.96) translateY(4px);
+}
+
+.testimonial-card {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.testimonial-card:hover {
+    transform: scale(1.02) translateY(-6px) !important;
+}
+
+.quote-watermark {
+    position: absolute;
+    right: 1.5rem;
+    bottom: -1.5rem;
+    font-size: 10rem;
+    line-height: 1;
+    font-family: "Georgia", serif;
+    font-weight: 900;
+    color: rgba(255, 183, 123, 0.03);
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Cyber Holographic laser scanline sweep */
+@keyframes laser-sweep {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(300%); }
+}
+.scanline-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.testimonial-card:hover .scanline-container {
+    opacity: 0.18;
+}
+.scanline-laser {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--laser-color, #ffb77b), transparent);
+    box-shadow: 0 0 10px var(--laser-color, #ffb77b);
+    animation: laser-sweep 3.5s linear infinite;
+}
+
+/* Glowing Neon Borders and Shadows */
+.glow-card-emerald:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(16, 185, 129, 0.2) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+}
+.glow-card-amber:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(245, 158, 11, 0.2) !important;
+    border-color: rgba(245, 158, 11, 0.5) !important;
+}
+.glow-card-sky:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(14, 165, 233, 0.2) !important;
+    border-color: rgba(14, 165, 233, 0.5) !important;
+}
+
+/* Radar Sweep and Cyber rotations */
+@keyframes radar-sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.animate-radar-sweep {
+    animation: radar-sweep 12s linear infinite;
+    transform-origin: 50px 46px; /* Target center coordinates of CRO and Quant SVGs */
+}
+.animate-whale-rotate {
+    animation: radar-sweep 20s linear infinite reverse;
+    transform-origin: 50px 50px; /* Target center coordinates of Whale SVG */
+}
+
+@keyframes glitch-flicker {
+    0%, 100% { opacity: 0.85; }
+    45% { opacity: 0.85; }
+    50% { opacity: 0.4; }
+    55% { opacity: 0.9; }
+    85% { opacity: 0.95; }
+    90% { opacity: 0.2; }
+}
+.cyber-flicker {
+    animation: glitch-flicker 5s infinite;
+}
+
+/* Booking Terminal Custom Styles */
+.floor-map-station {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.floor-map-station:hover {
+    filter: drop-shadow(0 0 6px var(--glow-color, #ffb77b));
+}
+.floor-map-station.selected {
+    filter: drop-shadow(0 0 12px var(--glow-color, #ffb77b));
+}
+.floor-map-station.occupied {
+    cursor: not-allowed;
+    opacity: 0.3;
+    fill: #222525 !important;
+    stroke: #3d4142 !important;
+}
+
+/* Ticket tear effects for receipt modal */
+.ticket-wrapper {
+    position: relative;
+    background: rgba(18, 20, 20, 0.95);
+    border: 1px solid rgba(255, 183, 123, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 183, 123, 0.08);
+}
+.ticket-cutout-left, .ticket-cutout-right {
+    position: absolute;
+    top: 68%;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #0c0f0f; /* Matches parent section dark glow-dark background */
+    z-index: 10;
+}
+.ticket-cutout-left {
+    left: -13px;
+    border-right: 1px solid rgba(255, 183, 123, 0.2);
+}
+.ticket-cutout-right {
+    right: -13px;
+    border-left: 1px solid rgba(255, 183, 123, 0.2);
+}
+.ticket-divider {
+    position: absolute;
+    top: calc(68% + 11px);
+    left: 20px;
+    right: 20px;
+    border-top: 2px dashed rgba(255, 183, 123, 0.15);
+    height: 1px;
+    z-index: 5;
+}
+
+/* Custom time slot buttons */
+.time-slot-btn {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.time-slot-btn.selected {
+    background-color: rgba(255, 183, 123, 0.15) !important;
+    border-color: rgba(255, 183, 123, 0.8) !important;
+    color: #ffb77b !important;
+    box-shadow: 0 0 15px rgba(255, 183, 123, 0.15) !important;
+}
+
+/* Google Map Dark Mode Filter */
+.dark-mode-map-iframe {
+    filter: invert(90%) hue-rotate(180deg) contrast(125%) brightness(95%) grayscale(80%);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dark-mode-map-iframe:hover {
+    filter: invert(90%) hue-rotate(180deg) contrast(120%) brightness(100%) grayscale(60%);
+}
+
+/* Radar locator ring animations */
+@keyframes radar-pulse {
+    0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.6); opacity: 0.4; }
+    100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+}
+.radar-pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1.5px solid #ffb77b;
+    border-radius: 50%;
+    animation: radar-pulse 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Retro Cyber CRT Terminal Overlay Styles */
+.crt-effect {
+    position: relative;
+    overflow: hidden;
+}
+.crt-effect::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
+                linear-gradient(90deg, rgba(74, 222, 128, 0.04), rgba(255, 183, 123, 0.02), rgba(74, 222, 128, 0.04));
+    z-index: 20;
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+}
+.crt-effect::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: rgba(18, 16, 16, 0.08);
+    opacity: 0;
+    z-index: 20;
+    pointer-events: none;
+    animation: crt-flicker 0.2s infinite;
+}
+@keyframes crt-flicker {
+    0% { opacity: 0.15; }
+    50% { opacity: 0.22; }
+    100% { opacity: 0.17; }
+}
+.terminal-glow {
+    text-shadow: 0 0 6px rgba(74, 222, 128, 0.7);
+}
+.terminal-glow-amber {
+    text-shadow: 0 0 6px rgba(255, 183, 123, 0.7);
+}
+.blink-cursor {
+    animation: blink-cursor-anim 1s step-end infinite;
+}
+@keyframes blink-cursor-anim {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ── Skeleton shimmer for FlipBook loading state ─────────────────────────── */
+@keyframes skeleton-shimmer-anim {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+.skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0)    0%,
+        rgba(255,183,123,0.04) 40%,
+        rgba(255,183,123,0.08) 50%,
+        rgba(255,183,123,0.04) 60%,
+        rgba(255,255,255,0)    100%
+    );
+    background-size: 600px 100%;
+    animation: skeleton-shimmer-anim 2s ease-in-out infinite;
+}
+
+/* ── Hint badge — pulse 3× then stop ────────────────────────────────────── */
+@keyframes hint-pulse {
+    0%, 100% { transform: translateY(0) scale(1);   opacity: 1;    }
+    40%       { transform: translateY(-5px) scale(1.05); opacity: 0.9; }
+}
+.hint-badge {
+    animation: hint-pulse 0.9s ease-in-out 3;   /* 3 pulses then stops */
+    animation-fill-mode: forwards;
+}
+
+/* ── Shake animation for incorrect password ─────────────────────────────── */
+@keyframes shake-anim {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+    20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+.shake {
+    animation: shake-anim 0.4s ease-in-out;
+}
