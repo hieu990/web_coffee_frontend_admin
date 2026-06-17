@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2026 JaThong. All rights reserved.
+ *
+ * Developed by:
+ * - Thông Trần
+ * - Hiếu Đỗ
+ */
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 

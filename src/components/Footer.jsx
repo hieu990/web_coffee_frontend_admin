@@ -1,4 +1,12 @@
+/**
+ * Copyright (c) 2026 JaThong. All rights reserved.
+ *
+ * Developed by:
+ * - Thông Trần
+ * - Hiếu Đỗ
+ */
 import React from 'react';
+
 
 export default function Footer() {
   return (

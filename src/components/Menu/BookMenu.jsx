@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2026 JaThong. All rights reserved.
+ *
+ * Developed by:
+ * - Thông Trần
+ * - Hiếu Đỗ
+ */
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import HTMLFlipBook from './HTMLFlipBook';
 import MenuItemComponent from './MenuItem';

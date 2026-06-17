@@ -191,5 +191,13 @@ Dự án đã được nâng cấp và tối ưu hóa hệ thống toàn diện 
 
 ---
 
-Copyright (c) 2026 Hiếu Đỗ, Thông Trần, JaThong. All rights reserved.
+```javascript
+/**
+ * Copyright (c) 2026 JaThong. All rights reserved.
+ *
+ * Developed by:
+ * - Thông Trần
+ * - Hiếu Đỗ
+ */
+```
 
