@@ -44,8 +44,6 @@ function BookSkeleton() {
           <div className="h-32 w-full rounded bg-white/5 mt-6" />
         </div>
       </div>
-      {/* Spine */}
-      <div className="w-5 bg-gradient-to-r from-black/70 via-[#14140e]/90 to-black/70 flex-shrink-0" />
       {/* Right page skeleton */}
       <div className="flex-1 bg-[#1e2022] relative overflow-hidden">
         <div className="absolute inset-0 skeleton-shimmer" style={{ animationDelay: '0.2s' }} />
@@ -358,19 +356,6 @@ export default function BookMenu({ menuData, onMenuItemClick, onAddToOrder }) {
               </div>
             </div>
           )}
-
-          {/* Spine overlay (only visible while pages are open) */}
-          <div
-            style={{
-              position: 'absolute', top: 0, bottom: 0, width: '20px',
-              background: 'linear-gradient(to right,rgba(0,0,0,0.7) 0%,rgba(20,14,6,0.9) 50%,rgba(0,0,0,0.7) 100%)',
-              boxShadow: '0 0 16px rgba(0,0,0,0.9)', zIndex: 40,
-              left: 'calc(50% - 10px)',
-              opacity: atStart || atEnd ? 0 : 1,
-              transition: 'opacity 0.5s ease',
-              pointerEvents: 'none',
-            }}
-          />
 
           {/* Book — fades in once ready */}
           <div className={`w-full h-full transition-opacity duration-700 ${isReady ? 'opacity-100' : 'opacity-0'}`}>
