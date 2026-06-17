@@ -49,9 +49,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-16 pt-8 border-t border-outline-variant/10 text-center space-y-2">
-        <p className="font-body-sm text-body-sm text-on-surface-variant">© 2024 LAB COFFEE &amp; Trading Lounge. BẢO LƯU MỌI QUYỀN.</p>
-        <p className="font-mono text-[11px] text-on-surface-variant/60">
-          Phát triển bởi <span className="text-secondary font-bold">Jathong</span>, <span className="text-secondary font-bold">HieuDo</span> &amp; <span className="text-secondary font-bold">ThongTran</span>
+        <p className="font-body-sm text-body-sm text-on-surface-variant">
+          Copyright (c) 2026 Hiếu Đỗ, Thông Trần, JaThong. All rights reserved.
         </p>
       </div>
     </footer>

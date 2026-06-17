@@ -188,3 +188,8 @@ Dự án đã được nâng cấp và tối ưu hóa hệ thống toàn diện 
 ### 4. Tối ưu hóa cơ chế kiểm soát CORS động
 - **Hành động:** Nâng cấp tất cả các API PHP để kiểm tra động tiêu đề request `HTTP_ORIGIN` đối chiếu với một danh sách các nguồn được whitelist (`localhost:5173`, Netlify) thay vì cấu hình cứng duy nhất một nguồn.
 - **Mục đích:** Cho phép hệ thống hoạt động ổn định và bảo mật cùng một lúc trên cả môi trường phát triển cục bộ và môi trường triển khai thực tế (Production) mà không cần can thiệp thủ công vào mã nguồn.
+
+---
+
+Copyright (c) 2026 Hiếu Đỗ, Thông Trần, JaThong. All rights reserved.
+
