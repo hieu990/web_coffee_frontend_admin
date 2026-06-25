@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 JaThong. All rights reserved.
+ * Copyright (c) 2026 JAThong, Trần Hoàng Thông và Đỗ Lê Trọng Hiếu. All rights reserved.
  *
  * Developed by:
  * - Thông Trần

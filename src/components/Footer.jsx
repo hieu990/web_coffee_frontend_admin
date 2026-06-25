@@ -1,9 +1,9 @@
 /**
- * Copyright (c) 2026 JaThong. All rights reserved.
+ * Copyright (c) 2026 JAThong, Trần Hoàng Thông và Đỗ Lê Trọng Hiếu. All rights reserved.
  *
  * Developed by:
- * - Thông Trần
- * - Hiếu Đỗ
+ * - Trần Hoàng Thông
+ * - Đỗ Lê Trọng Hiếu
  */
 import React from 'react';
 
@@ -58,7 +58,7 @@ export default function Footer() {
       </div>
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-16 pt-8 border-t border-outline-variant/10 text-center space-y-2">
         <p className="font-body-sm text-body-sm text-on-surface-variant">
-          Copyright (c) 2026 Hiếu Đỗ, Thông Trần, JaThong. All rights reserved.
+          Copyright (c) 2026 JAThong, Trần Hoàng Thông và Đỗ Lê Trọng Hiếu. All rights reserved.
         </p>
       </div>
     </footer>
